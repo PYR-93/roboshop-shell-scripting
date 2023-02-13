@@ -4,9 +4,24 @@ echo " Create the VM's via CLI "
 catalogue user cart payment shipping 
 user cart payment shipping frontend mongodb redis mysql rabbitmq dispatch
 
-for component in frontend mongodb redis mysql rabbitmq dispatch ; do
-az vm create --resource-group azure-training-2023 --name $component --image OpenLogic:CentOS-LVM:8-lvm-gen2:8.5.2022101401 --vnet-name azure-training-2023-vnet --subnet default  --admin-username centos --admin-password DevOps654321 --public-ip-address "" --size Standard_B1s
+for component in vmimage ; do
+az vm create --resource-group azure-training-2023 --name $component --image OpenLogic:CentOS-LVM:8-lvm-gen2:8.5.2022101401 --vnet-name azure-training-2023-vnet --subnet default  --admin-username centos --admin-password DevOps654321 --public-ip-address "" --size Standard_B1s --nsg "" 
 az vm auto-shutdown -g azure-training-2023 -n  $component --time 1230  
 done
 
+
+resourceGroup=azure-training-2023
+gallery=computegallery
+az sig image-definition list --resource-group $resourceGroup --gallery-name $gallery --query "[].[name, id]" --output tsv
+/subscriptions/d8391944-774c-41db-95d3-6797158258bc/resourceGroups/azure-training-2023/providers/Microsoft.Compute/galleries/computegallery/images/def1
+/subscriptions/d8391944-774c-41db-95d3-6797158258bc/resourceGroups/azure-training-2023/providers/Microsoft.Compute/galleries/computegallery/images/def1
+        age
+
+
+
+imgDef="/subscriptions/d8391944-774c-41db-95d3-6797158258bc/resourceGroups/azure-training-2023/providers/Microsoft.Compute/galleries/computegallery/images/def1/versions/1.0.0"
+for component in jumpserver2 ; do
+az vm create --resource-group azure-training-2023 --name $component  --image $imgDef --vnet-name azure-training-2023-vnet --subnet default  --admin-username centos --admin-password DevOps654321  --size Standard_B1ms --nsg ""
+az vm auto-shutdown -g azure-training-2023 -n  $component --time 1230  
+done
 
