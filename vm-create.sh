@@ -20,8 +20,11 @@ az sig image-definition list --resource-group $resourceGroup --gallery-name $gal
 
 
 imgDef="/subscriptions/d8391944-774c-41db-95d3-6797158258bc/resourceGroups/azure-training-2023/providers/Microsoft.Compute/galleries/computegallery/images/def1/versions/1.0.0"
-for component in jumpserver2 ; do
-az vm create --resource-group azure-training-2023 --name $component  --image $imgDef --vnet-name azure-training-2023-vnet --subnet default  --admin-username centos --admin-password DevOps654321  --size Standard_B1ms --nsg ""
+for component in elasticsearch ; do
+az vm create --resource-group azure-training-2023 --name $component  --image $imgDef --vnet-name azure-training-2023-vnet --subnet default  --admin-username centos --admin-password DevOps654321  --storage-sku Standard_LRS  --size Standard_B1ms --nsg ""
 az vm auto-shutdown -g azure-training-2023 -n  $component --time 1230  
 done
 
+
+--data-disk-sizes-gb 32
+--storage-sku Standard_LRS
