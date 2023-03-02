@@ -25,6 +25,11 @@ az vm create --resource-group azure-training-2023 --name $component  --image $im
 az vm auto-shutdown -g azure-training-2023 -n  $component --time 1230  
 done
 
+az mysql server create --resource-group azure-training-2023 --name mysql0145 --location canadacentral --admin-user root2 --admin-password RoboShop@1 --sku-name GP_Gen5_2
+
 
 --data-disk-sizes-gb 32
 --storage-sku Standard_LRS
+
+
+git pull; sed -i -e "s/dummy/XXX/g" inventory ; ansible-playbook  -i inventory -b roboshop-play.yml -e RABBITMQ_PASSWORD=XXXX123 -e ROBOSHOP_MYSQL_PASSWORD=XXX ; sed -i -e "s/XXXX/dummy/g" inventory
